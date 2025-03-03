@@ -1,11 +1,9 @@
 import streamlit as st
 import time
 import pandas as pd
-from streamlit_extras.switch_page_button import switch_page
-from streamlit_extras.stylable_container import stylable_container
 
 # Custom CSS for modern design
-st.set_page_config(page_title="Unit Converter", layout="wide", initial_sidebar_state="expanded")
+st.set_page_config(page_title="Professional Unit Converter", layout="wide", initial_sidebar_state="expanded")
 
 st.markdown("""
 <style>
@@ -26,19 +24,12 @@ st.markdown("""
         border: 2px solid #6366f1 !important;
     }
     
-    .metric-card {
-        background: rgba(255,255,255,0.05) !important;
-        border-radius: 20px;
-        padding: 25px;
-        border: 1px solid #3b82f6;
-        box-shadow: 0 4px 30px rgba(0,0,0,0.1);
-        backdrop-filter: blur(5px);
-        transition: all 0.3s;
-    }
-    
-    .metric-card:hover {
-        transform: translateY(-5px);
-        border-color: #818cf8;
+    .metric-box {
+        border: 2px solid #3b82f6;
+        border-radius: 15px;
+        padding: 20px;
+        margin: 10px 0;
+        background: rgba(255,255,255,0.05);
     }
     
     .glowing-text {
@@ -125,30 +116,24 @@ if st.button("🚀 Convert Now", type="primary"):
         result = convert_units(value, from_unit, to_unit, category)
         
         if result is not None:
-            with stylable_container(key="metric", css_styles="""
-                { 
-                    border: 2px solid #3b82f6;
-                    border-radius: 15px;
-                    padding: 20px;
-                    margin: 10px 0;
-                }"""):
-                
-                st.markdown(f"""
+            st.markdown(f"""
+            <div class="metric-box">
                 **{value} {from_unit}**  
                 =  
                 **{result} {to_unit}**  
-                """)
-                
-                # Add to history
-                new_entry = pd.DataFrame([{
-                    "Time": pd.Timestamp.now(),
-                    "From": f"{value} {from_unit}",
-                    "To": f"{result} {to_unit}",
-                    "Value": value,
-                    "Result": result
-                }])
-                
-                st.session_state.history = pd.concat([st.session_state.history, new_entry], ignore_index=True)
+            </div>
+            """, unsafe_allow_html=True)
+            
+            # Add to history
+            new_entry = pd.DataFrame([{
+                "Time": pd.Timestamp.now(),
+                "From": f"{value} {from_unit}",
+                "To": f"{result} {to_unit}",
+                "Value": value,
+                "Result": result
+            }])
+            
+            st.session_state.history = pd.concat([st.session_state.history, new_entry], ignore_index=True)
         else:
             st.error("Invalid conversion attempt!")
 
@@ -195,7 +180,7 @@ st.markdown("""
     .stSelectbox [data-testid='stSelectbox'] > div {
         font-size: 14px !important;
     }
-    .metric-card {
+    .metric-box {
         padding: 15px !important;
     }
 }
