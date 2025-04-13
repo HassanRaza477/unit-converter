@@ -6,7 +6,6 @@ import hashlib
 import secrets
 import string
 
-# Configuration
 MIN_LENGTH = 12
 COMMON_PASSWORDS_URL = "https://raw.githubusercontent.com/danielmiessler/SecLists/master/Passwords/Common-Credentials/10-million-password-list-top-10000.txt"
 
@@ -153,13 +152,12 @@ def main():
     </style>
     """, unsafe_allow_html=True)
 
-    # Main Interface
+   
     col1, col2 = st.columns([1, 1], gap="large")
 
     with col1:
-        st.markdown("## 🔐 Password Analyzer")
+        st.markdown("## Password Analyzer")
         
-        # Password Input
         password = st.text_input(
             "Enter Password:", 
             type="password",
@@ -171,7 +169,7 @@ def main():
             checks = strength_check(password)
             strength = strength_meter(checks)
 
-            # Strength Meter
+           
             st.markdown(f"""
             <div class="strength-container">
                 <div style="display: flex; justify-content: space-between;">
@@ -188,7 +186,7 @@ def main():
             </div>
             """, unsafe_allow_html=True)
 
-            # Security Checklist
+           
             st.markdown("### 🔍 Security Checklist")
             criteria = [
                 (checks['length'], f"Minimum {MIN_LENGTH} characters", "📏"),
@@ -212,7 +210,7 @@ def main():
     with col2:
         st.markdown("## ⚡ Password Generator")
         
-        # Generator Controls
+      
         pass_length = st.slider("Select Length", 12, 32, 16)
         if st.button("Generate Secure Password"):
             new_pass = generate_password(pass_length)
@@ -222,7 +220,7 @@ def main():
             st.markdown("### Generated Password")
             st.markdown(f'<div class="generated-pass">{st.session_state.generated_pass}</div>', unsafe_allow_html=True)
             
-            # Copy Functionality
+         
             if st.button("📋 Copy Password"):
                 st.write("Password copied to clipboard!")
 
